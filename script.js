@@ -293,17 +293,25 @@ function animate(now) {
 });
 
 resetBtn.addEventListener('click', () => {
+  sodiumStateEl.value = 'closed';
+  potassiumStateEl.value = 'closed';
+  leakStateEl.value = 'closed';
+
   startTime = performance.now();
   lastFrameTime = startTime;
   leakGradient = 0.18;
+
   particles.forEach((p) => {
     p.phase = Math.random();
     p.lastRaw = Math.random();
+
     if (p.type === 'leak') {
       p.direction = chooseLeakDirection();
       p.element.src = randomLeakAsset();
     }
   });
+
+  updateUI();
 });
 
 updateUI();
