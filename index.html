@@ -11,28 +11,31 @@
     <header class="hero">
       <div>
         <p class="eyebrow">Hodgkin-Huxley Voltage Clamp Schematic</p>
-        <h1>Ion Channel State Simulator</h1>
+        <h1>Ion Channels in Hodgkin Huxley Experiment</h1>
         <p class="subtitle">
-          Select Na<sup>+</sup>, K<sup>+</sup>, and leak channel states to see qualitative ion flux across the membrane.
+          Made by Felix Fang & Zhe Zhang
         </p>
       </div>
       <div class="legend-card">
         <div><span class="dot sodium"></span> Na<sup>+</sup> moves inward when open</div>
         <div><span class="dot potassium"></span> K<sup>+</sup> moves outward when open</div>
-        <div><span class="dot leak"></span> Leak ions move randomly with gradient bias</div>
+        <div><span class="dot leak"></span> Leak ions move according to concentration gradient</div>
       </div>
     </header>
     
 <!--Button Status-->
-    <label class="control-card" for="leakState">
+    
+
+    <section class="controls-panel" aria-label="Channel controls">
+      
+      <label class="control-card" for="leakState">
         <span>Leak channel state</span>
         <select id="leakState">
           <option value="closed">Closed</option>
           <option value="open" selected>Open: passive stochastic leak</option>
         </select>
       </label>
-
-    <section class="controls-panel" aria-label="Channel controls">
+      
       <label class="control-card" for="sodiumState">
         <span>Sodium channel state</span>
         <select id="sodiumState">
@@ -50,17 +53,20 @@
         </select>
       </label>
 
-
-      <button id="resetBtn" type="button">Reset animation</button>
+<!-- Reset button-->
+      <button id="resetBtn" type="button">Close all Channels</button>
     </section>
 
+<!--Stage Card-->
     <section class="stage-card">
       <div class="status-strip">
         <div id="leakStatus" class="status leak-status"></div>
         <div id="sodiumStatus" class="status sodium-status"></div>
         <div id="potassiumStatus" class="status potassium-status"></div>
       </div>
-
+      
+<!-- Placing the membrane-->
+      
       <div id="stage" class="stage" aria-label="Ion channel membrane schematic">
         <div class="side-label extracellular">Extracellular side</div>
         <div class="side-label intracellular">Intracellular side</div>
@@ -79,13 +85,15 @@
       </div>
     </section>
 
+    <!-- Channel Progress, in and out % -->
+    
     <section class="readout-grid">
       <article class="readout-card">
-        <h2>Na<sup>+</sup> channel logic</h2>
+        <h2>Na<sup>+</sup> channel </h2>
         <p id="sodiumExplanation"></p>
         <div class="meter" aria-label="Sodium flux meter"><span id="sodiumMeter"></span></div>
         <div class="buildup-readout">
-          <span>Na<sup>+</sup> intracellular buildup</span>
+          <span>Na<sup>+</sup> Intracellular Buildup</span>
           <strong id="sodiumBuildupValue">0%</strong>
         </div>
         <div class="buildup-track" aria-label="Sodium buildup pressure">
@@ -105,14 +113,14 @@
             <output id="betaMVal">0.45</output>
           </label>
 
-          <h3>h-gate: Na<sup>+</sup> inactivation</h3>
+          <h3>h-gate: Na<sup>+</sup> Inactivation</h3>
           <label class="rate-slider" for="alphaH">
             <span>α<sub>h</sub> recovery/opening</span>
             <input id="alphaH" type="range" min="0.05" max="5" step="0.05" value="0.25" />
             <output id="alphaHVal">0.25</output>
           </label>
           <label class="rate-slider" for="betaH">
-            <span>β<sub>h</sub> inactivation</span>
+            <span>β<sub>h</sub> Inactivation</span>
             <input id="betaH" type="range" min="0.05" max="5" step="0.05" value="0.90" />
             <output id="betaHVal">0.90</output>
           </label>
@@ -120,12 +128,12 @@
       </article>
 
       <article class="readout-card">
-        <h2>Leak channel logic</h2>
+        <h2>Ion Gradient</h2>
         <p id="leakExplanation"></p>
         <div class="gradient-label">
-          <span>Outward bias</span>
+          <span>Outward, ECF Bias</span>
           <strong id="gradientText">Balanced</strong>
-          <span>Inward bias</span>
+          <span>Inward, ICF Bias</span>
         </div>
         <div class="gradient-track" aria-label="Leak gradient indicator">
           <span class="gradient-center"></span>
@@ -134,11 +142,11 @@
       </article>
 
       <article class="readout-card">
-        <h2>K<sup>+</sup> channel logic</h2>
+        <h2>K<sup>+</sup> Channel</h2>
         <p id="potassiumExplanation"></p>
         <div class="meter" aria-label="Potassium flux meter"><span id="potassiumMeter"></span></div>
         <div class="buildup-readout">
-          <span>K<sup>+</sup> extracellular buildup</span>
+          <span>K<sup>+</sup> Extracellular Buildup</span>
           <strong id="potassiumBuildupValue">0%</strong>
         </div>
         <div class="buildup-track" aria-label="Potassium buildup pressure">
@@ -146,7 +154,7 @@
         </div>
 
         <div class="gate-slider-group" aria-label="Potassium gate rate controls">
-          <h3>n-gate: K<sup>+</sup> activation</h3>
+          <h3>n-gate: K<sup>+</sup> Activation</h3>
           <label class="rate-slider" for="alphaN">
             <span>α<sub>n</sub> opening</span>
             <input id="alphaN" type="range" min="0.05" max="5" step="0.05" value="0.60" />
@@ -161,6 +169,7 @@
       </article>
     </section>
 
+    <!-- Graphical Section-->
     <section class="graph-panel" aria-label="Hodgkin-Huxley graph panel">
       <div class="graph-panel-header">
         <div>
@@ -172,6 +181,9 @@
             The right graph shows voltage-clamp total membrane current, not injected I<sub>app</sub>.
           </p>
         </div>
+
+        <--! Formulas from Lect 4 slide--> 
+          
         <div class="equation-pill">
           I<sub>total</sub> = I<sub>K</sub> + I<sub>Na</sub> + I<sub>C</sub><br />
           I<sub>K</sub> = (48n<sup>4</sup>)(V<sub>m</sub> + 90)/1000<br />
@@ -179,7 +191,9 @@
           I<sub>C</sub> = (V<sub>∞</sub> − V<sub>m</sub>)/r<sub>m</sub>
         </div>
       </div>
-
+      
+<--! Graphical View-->
+  
       <div class="graph-grid">
         <article class="graph-card">
           <div class="graph-card-title">
