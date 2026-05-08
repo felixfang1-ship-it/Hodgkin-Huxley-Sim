@@ -852,11 +852,11 @@ function updateUI() {
     sodiumMeterEl.style.width = '100%';
   } else if (sodiumState === 'closed') {
     sodiumStatusEl.innerHTML = 'Na<sup>+</sup>: closed → no Na<sup>+</sup> flux';
-    sodiumExplanationEl.innerHTML = 'The activation m-gate is closed, so the pore is not conductive.';
+    sodiumExplanationEl.innerHTML = 'The activation m-gate is closed, so no 'Na<sup>+</sup> ions can flow through.';
     sodiumMeterEl.style.width = '0%';
   } else {
     sodiumStatusEl.innerHTML = 'Na<sup>+</sup>: inactivated → blocked pore';
-    sodiumExplanationEl.innerHTML = 'The inactivation h-gate blocks the channel, so Na<sup>+</sup> cannot pass even if activation had occurred.';
+    sodiumExplanationEl.innerHTML = 'The inactivation h-gate blocks the channel, so Na<sup>+</sup> cannot pass even if m-gate is activated.';
     sodiumMeterEl.style.width = '0%';
   }
 
@@ -872,20 +872,20 @@ function updateUI() {
 
   if (leakState === 'open') {
     leakStatusEl.innerHTML = 'Leak: open → slow stochastic mixed-ion flux';
-    leakExplanationEl.innerHTML = 'Random leak ions cross in both directions. Their direction is biased by the simulated gradient, so the flow shifts inward or outward as the gradient builds.';
+    leakExplanationEl.innerHTML = 'Random leak particles can cross in both directions. Their direction is based on the simulated gradient, so the flow shifts inward or outward as the gradient builds.';
   } else {
     leakStatusEl.innerHTML = 'Leak: closed → random ions drift but do not cross';
-    leakExplanationEl.innerHTML = 'The leak pore is closed, so the mixed leak particles only drift on each side of the membrane.';
+    leakExplanationEl.innerHTML = 'The leak channel is closed, so the mixed leak particles only drift on each side of the membrane. However, they do not cross the closed channel';
   }
 
   if (sodiumAutoClosed && sodiumState === 'closed') {
     sodiumStatusEl.innerHTML = `Na<sup>+</sup>: auto-closed → buildup pause (${Math.max(0, sodiumReopenTimer).toFixed(1)} s)`;
-    sodiumExplanationEl.innerHTML += ' Intracellular Na<sup>+</sup> buildup slowed the flux and forced the channel closed. It will reopen after the 5 s sodium closed pause if the selector is still set to open.';
+    sodiumExplanationEl.innerHTML += ' Intracellular Na<sup>+</sup> buildup slowed the flux and forced the channel closed. It will reopen once the channel is repolarized.';
   }
 
   if (potassiumAutoClosed && potassiumState === 'closed') {
     potassiumStatusEl.innerHTML = `K<sup>+</sup>: auto-closed → buildup pause (${Math.max(0, potassiumReopenTimer).toFixed(1)} s)`;
-    potassiumExplanationEl.innerHTML += ' Extracellular K<sup>+</sup> buildup slowed the flux and forced the channel closed. It will reopen after the 7 s potassium closed pause if the selector is still set to open.';
+    potassiumExplanationEl.innerHTML += ' Extracellular K<sup>+</sup> buildup slowed the flux and forced the channel closed. It will reopen once the channel is repolarized.';
   }
 
   updateBuildupReadout();
